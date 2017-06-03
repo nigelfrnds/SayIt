@@ -6,22 +6,44 @@ import { Card, CardSection, Button } from './common';
 import IconButton from './IconButton';
 
 class SoundItem extends Component {
+  // SOUND WONT PLAY, audio for react-native sucks 
+  componentWillMount() {
+    const { media } = this.props.sound;
+    console.log('SoundItem:' , media);
 
-  onButtonPress() {
-    const s = new Sound(this.props.media, (error) => {
-      if(error) {
-        console.log('error loading sound ', error);
-      }else {
-        s.play((error) => {
-          if(error) {
-            console.log('playback error', error);
-          }else {
-            console.log('soundclip played');
-            s.release();
-          }
-        });
-      }
-    });
+    this.timeout = setInterval(() => {
+      this.audio = new Sound('./nav.mp3', Sound.MAIN_BUNDLE, (e) => {
+        if(e) {
+          console.log(e);
+        }
+      });
+    }, 1000);
+  }
+
+  onPlayButtonPress() {
+    const { media } = this.props.sound;
+    //console.log(media);
+
+    if(this.audio.isLoaded()){
+      this.audio.setVolume(0.5);
+      this.audio.play((success) => {
+        if(success) {
+          console.log('played');
+          this.audio.release();
+        }else{
+          console.log(success);
+        }
+      });
+
+    }else {
+      console.log('not loaded');
+    }
+
+  }
+
+  onAddButtonPress() {
+    const { id } = this.props.sound;
+    console.log(this.props.sound, ' added to library');
   }
 
   render() {
@@ -31,7 +53,7 @@ class SoundItem extends Component {
     return (
       <CardSection style={containerStyle}>
         <View>
-          <IconButton>
+          <IconButton onPress={this.onPlayButtonPress.bind(this)}>
             <Icon name="arrow-right-drop-circle-outline" size={35}/>
           </IconButton>
         </View>
@@ -42,7 +64,7 @@ class SoundItem extends Component {
         </View>
 
         <View>
-          <IconButton>
+          <IconButton onPress={this.onAddButtonPress.bind(this)}>
             <Icon name="playlist-plus" size={35}/>
           </IconButton>
         </View>

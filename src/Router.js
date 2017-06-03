@@ -1,10 +1,12 @@
 import React from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomePage from './components/screens/HomePage';
 import CategoryStackRouter from './components/CategoryStackRouter';
 import SearchPage from './components/screens/SearchPage';
 import LibraryPage from './components/screens/LibraryPage';
 import SettingsPage from './components/screens/SettingsPage';
+
 
 const RouterComponent = TabNavigator(
   {
@@ -12,7 +14,12 @@ const RouterComponent = TabNavigator(
       screen: HomePage,
     },
     Browse: {
-      screen: CategoryStackRouter
+      screen: CategoryStackRouter,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="format-list-bulleted" size={30} color={tintColor}/>
+        ),
+      }
     },
     Search: {
       screen: SearchPage,

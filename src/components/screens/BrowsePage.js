@@ -7,11 +7,7 @@ class BrowsePage extends Component {
   // options for the Router
   static navigationOptions = {
     tabBarLabel: 'Browse',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon name="format-list-bulleted" size={30} color={tintColor}/>
-    ),
     headerTitle: 'Browse',
-
   };
 
   render() {
